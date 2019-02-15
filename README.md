@@ -153,3 +153,6 @@
 ## 2019年2月15日
 1. 运营平台国际版嵌入google地图，但是需要手机支持Google Play服务，在网上查目前国产手机都不支持这个，太坑了，看来还要找找其它方法
 2. 学习了下安卓的类加载模式原理
+3. 解决flutter编译正式包没有libflutter.so问题。windows要在编译命令加上指定的cpu类型。
+flutter build apk --target-platform=android-arm64
+
