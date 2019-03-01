@@ -347,5 +347,44 @@ NULL等价于0，也可以给指针变量赋值为0,但不建议这样做。
 int *p = NULL;
 int *p1 = 0;
 使用NULL的指针会直接报错
+
+多个指针指向同个变量
+int* p1 = &num;
+int* p2 = p1;
+这时p1和p2都指向num的地址，*p1和*p2访问的都是num变量。
+
+指针用在什么地方
+当普通变量作为函数的参数时，在函数中无法改变入参的值。
+void test(int* p)
+{
+   *p = 1000;//这里会改变num的值
+}
+int num = 0;
+test(&num);
+
+什么时候需要将指针作为函数入参？
+1. 当函数的返回值大于一个以上时。可以在函数的入参加上指针。
+int getMaxAndMin(int arr[],int len,int* min)
+{
+	int max = INT32_MIN;
+	*min = INT32_MAX;
+	for(int i =0;i<len;i++)
+        {
+            if(arr[i] > max)
+            {
+                 max = arr[i];
+             }
+             if(arr[i] < *min)
+             {
+                 *min = arr[i];
+              }
+         }
+
+         return max;
+}
+第二个例子，这样scanf直接就改变了num的值。
+int num = 0;
+scanf("/d",&num);
+
 ```
 
