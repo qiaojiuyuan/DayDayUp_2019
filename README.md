@@ -784,4 +784,169 @@ struct Student jim = {.name = "ji",.age = 10};
 相同的结构体变量之间是可以相互赋值的，结构体之间赋值是值传递
 struct Student jim = {.name = "ji",.age = 10};
 struct Student li = jim;
+
+结构体数组
+元素类型 数组名[数组长度]
+struct Student stu[5];
+stu[0] = jim;
+初始化方式
+1.通过下标为结构体每个元素赋值
+2.当我们为结构体数组的元素赋值的时候，如果直接使用大括弧来初始化，就必须
+要在前面加个类型强转，告诉编译器我们要给的数据类型是结构体类型。
+sut[0] = (struct Student){"qiao",12};
+3.在声明结构体数组的同时，就给元素初始化。
+struct Student stu[5] = {{"qiao",12}，{"jeo",12}};
+
+结构体数组的长度计算
+先使用sizeof计算出数组占用总的字节数，使用这个总字节数除以每1个元素占用的字节数。
+int len = sizeof(stu) / sizeof(struct Student);
+
+结构体指针
+struct student lili = {"jack",20}
+struct Student* pStu = &lili;
+结构体指针访问结构体里的变量成员两种方式
+(*pStu).name = "qqq";
+pStu->name = "rose";
+
+结构体嵌套
+struct Date
+{
+  int year;
+};
+struct Person
+{
+  char* name;
+  int age;
+  struct Date birthday;
+};
+初始化
+struct Person xiaoming = {"xiao",21,{1990}};
+
+结构体作为函数的参数
+结构体作为参数传值是值传递，除非传入的是结构体指针
+void test(struct Student stu)
+{
+  
+}
+void test(struct Student* stu)
+{
+  
+}
+
+结构体作为函数的返回值
+1.结构体类型可以作为返回值，
+struct Student getStudent()
+{
+   struct Student s1 = {"qiao",21};
+   return s1;
+}
+下面的代码是错误的，因为s1是局部变量，函数执行完成后就被销毁了。
+struct Student * getStudent()
+{
+   struct Student s1 = {"qiao",21};
+   return &s1;
+}
+如果要返回指针需要在堆内存中申请内存空间
+struct Student * getStudent()
+{
+   struct Student *s1 = calloc(1,sizeof(struct Student));
+   s1->name = "rose";
+   return s1;
+}
+
+枚举
+数据类型的变量的取值被限定
+enum 新类型名称
+{
+   限定取值1，限定取值2，限定取值3
+};
+enum Dir
+{
+  East,
+  South,
+  West
+};
+表示新创建了1个数据类型，数据类型叫enum Dir
+
+声明枚举类型变量
+enum Dir dir;
+
+注意
+1.每一个枚举值都有一个对应的整形的数。默认从0开始，依次递增。
+2.无论什么类型的枚举变量都占4个字节
+3.枚举变量中真正存储的是枚举值对应的整型的数。
+4.枚举值还可以重新赋值
+enum Dir
+{
+  East = 10,
+  South = 20,
+  West =30
+};
+
+枚举使用规范
+1.命名规范，首字母大写，每个单词的首字母大写。
+2.枚举值的命名规范，枚举值的名称都以枚举类型来开头。
+
+typedef
+作用：为一个已经存在的数据类型取一个别名，如果我们想使用这个类型，直接使用这个别名
+就可以了。
+语法格式
+typedef 已经存在的数据类型 别名;
+typedef int qInt;
+qInt num = 10;
+经常使用的的size_t其实就是unsigned long，只是被取了别名而已
+什么时候使用？
+当数据类型很长的时候，就可以为这个数据类型取一个短一点的别名，这样使用方便。
+unsigned long long int num =10;
+typedef unsigned long long int hm;
+hm num1 = 100;
+
+为结构体使用typedef，声明一个短别名,分别有以下三种方式
+第一种
+struct student
+{
+   int age;
+   char* name;
+};
+typedef struct Student stu;
+第二种
+typedef struct student
+{
+   int age;
+   char* name;
+} stu;
+第三种
+为匿名结构体使用typedef声名一个短名，最常用的方式
+
+typedef struct
+{
+   int age;
+   char* name;
+} stu;
+再使用的时候可以直接用下面的形式
+stu s1;
+
+使用typedef为枚举类型取一个短别名,两种方式
+第一种
+enum Direction
+{
+  East,
+  South
+};
+typedef enum Direction Direction;
+第二种
+typedef enum Direction
+{
+  East,
+  South
+} Direction;
+
+第三种
+typedef enum
+{
+  East,
+  South
+} Direction;
+直接使用
+Direction dir = East;
 ```
