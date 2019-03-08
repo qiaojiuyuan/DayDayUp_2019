@@ -574,7 +574,7 @@ name2指针变量也在常量区中，并且指向存在常量区中的数组地
 你比别人都靠谱。
 
 ---
-## 2019年3月6日
+## 2019年3月7日
 1. c语言学习
 ```c
 字符串的恒定性
@@ -716,7 +716,72 @@ int* test()
   int* arr = calloc(3,sizeof(int));
   return arr;
 }
+
+如果函数的返回值是字符串，那返回值类型就是char*。
+字符串常量存储在常量区里，可以直接返回这个字符串的地址，不用在堆区申请空间。
+申请在常量区的空间是不会被回收的。
+char* getWeekDay(int day)
+{
+  return "monday";
+}
 ```
 2. 修改运营平台国际版崩溃问题
 3. 我们大组今天说明天晚上要去团建，我们组的人大部分都是要被裁员的，都没什么心情去。
 
+---
+## 2019年3月8日
+1. c语言学习
+```c
+指向函数的指针
+声明方式
+返回值类型(*指针名)([参数列表]);
+只能指向没有返回值，并且没有参数的函数。
+void (*pFunction))();
+int (*pFun)(int num1,int num2);
+函数名代表函数的地址
+void test(){}
+void (*pFunction)() = test;
+如何调用函数指针,下面两种方式都可以
+pFunction（）
+(*pFunction)()
+
+结构体
+struct 新类型名称
+{
+
+};
+struct student
+{
+   int age;
+   char* name;
+};
+上面只是声明了一个结构体类型，在使用时还需要再声明一个结构体变量。这个时候才会在内存中申请空间。
+struct 新类型名称 变量名;
+struct Student stu;
+stu.name = "jack";
+stu.age = 10;
+匿名结构体
+不可以再创建新的变量
+struct
+{
+   int age;
+   char* name;
+} jeo;
+
+结构体变量的初始化
+1.先声明变量，再用.初始化
+2.直接初始化，这种最常用
+struct student lili = {"jack",20}
+3.在声明结构体变量的同时，按顺序初始化部分成员
+struct Student lili = {"li"};
+4.指定成员初始化
+struct Student jim = {.name = "ji",.age = 10};
+
+结构体变量的成员的默认值
+结构体变量的成员的默认值是垃圾值，只要在声明结构体变量的同时，只要初始
+化1个成员，其它的成员都会被自动初始化为0
+
+相同的结构体变量之间是可以相互赋值的，结构体之间赋值是值传递
+struct Student jim = {.name = "ji",.age = 10};
+struct Student li = jim;
+```
