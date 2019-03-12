@@ -1208,6 +1208,65 @@ Person *p1 = [Person new];
 p1->_name = @"jack";//平时开发要使用->这种方式
 p1->_age = 19;
 (*p1)._name = @"jack";
+
+OC的方法
+示例
+@interface Person : NSObject
+{
+   @public
+   NSString *_name;
+   int _age;
+}
+方法的声明写这里
+- (返回值)方法的名称;
+- (返回值)方法的名称:(参数类型)形参名称;
+- (返回值)方法的名称:(参数类型)形参名称1 :(参数类型)形参名称2;
+@end
+
+@implementation Person
+方法的实现写这里
+@end
+
+@interface Person : NSObject
+{
+   @public
+   NSString *_name;
+   int _age;
+}
+- (void)run;//声名一个无返回值无参数的方法
+- (void)eatWith:(NSString *)foodName;//注意，方法的名字叫eatWith:,如果方法只有一个入参，方法名最好
+加上With，这样易读性更好,是一种规范
+- (int)sum:(int)num1 :(int)num2;//注意，方法的名字叫sum: :
+- (int)sum:(int)num1 and:(int)num2;//注意，方法的名字叫sum: and:,加上and更加易读
+@end
+
+@implementation Person
+- (void)run
+{
+   NSLog(@"fsdafdasf");
+}
+- (void)eatWith:(NSString *)foodName
+{
+    NSLog(@"fsdafdasf%@",foodName);
+}
+- (int)sum:(int)num1 :(int)num2
+{
+    return num1 + num2;
+}
+- (int)sum:(int)num1 and:(int)num2
+{
+    return num1 + num2;
+}
+@end
+
+如何调用方法
+[对象名 方法]
+Person *p1 = [Person new];
+[p1 run];//调用无入参的函数
+[p1 eatWith:@"iii"];//调用有一个入参数的函数
+int sum = [p1 sum:10 :20];
+int sum = [p1 sum:10 and:20];
+
 ```
 2.今天开始学习oc语言了，学习完c语言确实能更有助于学习oc的一些知识，主要是内存方面的更好理解，这样可以更好的使用内存和优化性能
 
