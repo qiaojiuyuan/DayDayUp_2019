@@ -1536,3 +1536,132 @@ Person *p1 = [Studen new];
 当我们使用%@打印一个对象的时候，NSLog函数调用的是
 传入对象的description方法。
 ```
+
+---
+## 2019年3月18日
+1. oc学习
+```oc
+代码段存储类的那块空间是个什么类型
+在代码段中存储类的步骤
+1.先在代码段里创建一个class对象
+2.把对象的信息存到class对象里面，如类名、方法和属性、isa指针，
+isa指针指向他的父类的类对象
+
+如何拿到存储在代码段中的类对象
+注意:
+声明Class指针的时候，不需要加*，因为在typedef的时候已经加*了
+两种获取类对象的方式
+1.调用类的类方法claas，就可以得到存储类的类对象地址
+Class c1 = [Person class];
+2.调用对象的对象方法class就可以得到这个对象所属的类的Class对象的地址
+Person *p1 = [Person new];
+Class c2 = [p1 class];
+
+如何使用类对象
+1.c1等价于Person类
+调用类方法
+[c1 test];
+2.可以使用类对象来调用new方法
+Person *p2 = [c1 new];
+注意
+使用类对象，只能调用类的类方法，不能调用类对象的方法
+
+SEL
+全称叫做selector，是选择器的意思
+SEL是一个数据类型，所以要在内存中申请空间存储数据
+SEL其实是一个类。SEL对象是用来存储一个方法的
+类是以Class对象的形式存储在代码段中的
+类的方法存储在类对象之中的一个数组里，数组里的每个元素都是一个SEL对象，
+将类中的每个方法都封装一个SEL对象
+如何拿到SEL对象
+因为SEL是一个typedef类型，在自定义的时候已经加*了，所以声明SEL指针的
+时候不用加*了
+SEL s1 = @selector(test);
+
+调用方法的本质
+[p1 sayHi];
+内部原理
+1.先拿到存储sayHi方法的SEL对象
+2.p1对象接收到这个SEL消息以后，就知道要调用方法
+3.根据对象的isa指针找到存储类的类对象
+4.找到这个类对象以后，在这个类对象中云搜寻是否有和传入的SEL数据相匹配的，
+如果有就执行，没有再找父类，直到NSObject类
+
+OC最重要的一个机制，消息机制就是这个调用方法的本质，
+调用方法的本质其实就是为对象发送SEL消息
+
+手动为对象发送SEL消息
+1.先得到方法的SEL消息
+Person *p1 = [Person new];
+SEL s1 = @selector(sayHi);
+2.将这个SEL消息发送给p1对象
+[p1 performSelector:s1];
+3.调用一个对象的方法有两种
+[对象名 方法名];//常用
+手机的为对象发送SEL消息
+
+注意事项
+1.如果方法有参数，那么方法名是要带上冒号的
+2.还要传递参数
+[p1 performSelector:s1 withObject:@"qqq"];
+3.如果有多个参数
+Params *ps = [Params new];
+SEL s1 = @selector(testWith:);
+[p1 performSelector:s1 withObject:ps];
+
+点语法原理
+p1.age = 18;
+这句话本质并不是直接赋值给p1对象的_age属性，
+点语法在编译器编译的时候，会将点语法转换为调用setter、getter代码
+注意
+1.在getter和setter中慎用点语法，因为有可能会造成无限递归
+如
+self.age;
+2.点语法在编译器编译的时候，会转换为调用setter和getter方法的代码，
+如果我们的setter方法和getter方法名不符合规范的话，那么点语法就只会出问题
+3.如果属性没有封装getter和setter是无法使用点语法的
+
+@property
+声明一个类的时候总要为他的一些属性写上setter和getter方法，
+我们可以使用@property来标识属性，这样会自动生成setter和getter方法
+要写在.h文件里的属性下面
+例如:
+@interface Person : NSObject
+{
+   int _age;
+}
+
+@property int age;//这里不要加下划线
+
+@end
+
+使用注意
+1.@property的类型和属性的类型一致因为这个决定着生成的getter和setter方法的返回值类型
+2.@property的名称要去掉下划线，因为这个决定着生成的getter和setter方法的名字
+3.@property只是生成getter和setter方法的声明，实现还要自己来写
+
+@synthesize
+作用:自动生成getter、setter方法的实现，所以应该写在类的实现之中,
+但这样会新生成一个新的私有属性
+语法:
+@synthesize 属性名称;//注意不要加下划线
+例如:
+@implmentation Person
+
+@synthesize age;//注意不要加下划线
+@end
+
+如果希望@synthesize不要自动生成私有属性的getter和setter方法，
+而且是直接操作我们已经定义好的属性，就需要换一种写法
+如下
+@synthesize age = _age;
+
+以上的@property和@synthesize是Xcode4.4以前的写法，从4.4以后
+对@property做了一个增强
+4.4以后只需要写一个@property编译器就会自动生成getter和setter方法,
+如果需要在setter或getter做逻辑判断，直接重写这两个方法就可以，但
+不能同时重写，会报错
+```
+2. 波哥今天就正式搬到那边了，中午也变成了我自己吃饭，还有一点点不太适应，哈哈，其实我是想去健身的，只是自己去
+没意思
+
