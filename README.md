@@ -1965,3 +1965,192 @@ release了
 搬到了16层，我的位置还行，比想象中好点吧，但没有18层那么好，换了环境感觉像是换了一份工作一样。身边的
 同事各种请假，周四、周五和周末两天一连上真爽啊。不知道他们是去面试了还是怎样。
 
+---
+## 2019年3月25日
+1. 状态不好，看了一点oc视频，不过知识基本都会
+
+---
+## 2019年3月26日
+1. oc学习
+```oc
+分类
+在创建一个类文件的时候，会有一个File Type的选项，这里面要选Category类型，
+才可以创建分类的文件
+1.将一个类分为多个模块，其实就是给一个类添加新的方法，这样可以
+在不改变以前的类文件的情况下做到
+2.如何为一个类添加分类
+跟创建普通的类一样，只是多一个分类名在类名的后面，用括号包含.
+分类并不是创建一个新类，而是对已有的类添加一个分类。一个类可以
+有多个分类，所以每个分类要有自己的名字。
+3.会生成一个.h和一个.m的模块
+模块文件名是:
+本类名+分类名.h
+本类名+分类名.m
+4.添加的分类也分为声明和实现
+@interface 本类名 (分类名)
+
+@end
+
+@implementation Student (itcase)
+
+@end
+5.分类的使用
+如果要访问分类中定义的成员或方法，就要把分类的头文件引进来
+
+使用分类要注意的几个地方
+1.分类只能增加方法，不能增加属性
+2.在分类之中可以写@property，但是不会自动生成私有属性，也不会
+自动生成getter和setter的实现，只会生成getter和setter的声明。
+3.在分类的方法实现中不可以直接访问分类的私有属性，但可以调用
+本类的getter和setter方法来访问属性。
+4.当分类中有和本类中同名的方法的时候，优先调用分类的方法，哪怕
+没有引入分类的头文件。如果多个分类中有相同的方法，优先调用最后
+编译的分类。
+
+非正式协议
+非正式协议是给系统自带的类定义分类
+
+ARC机制和垃圾回收机制的区别
+GC：
+程序运行的期间，垃圾回收器不断的扫描堆区进行垃圾回收。
+ARC
+是在程序编译的时候，就把释放对象的语句写的代码中了。
+
+类的一类构造方法初始化属性时要注意的点
+下面是错误代码
+- (instancetype)initWithCar:(Car *)car
+{
+   if(sele = [super init])
+   {
+      _car = car;//错误写法
+   }
+   return self;
+}
+
+- (void)dealloc
+{
+   [_car release];
+   [super dealloc];
+}
+当使用_car = car;赋值的时候，并没有调用对象的retain方法，这样
+对象的引用数不会加1，当外部释放对象引用的时候，会造成僵尸对象，
+car方法已经被释放掉了
+应改为
+- (instancetype)initWithCar:(Car *)car
+{
+   if(sele = [super init])
+   {
+      self._car = car;//这里改成这种写法
+   }
+   return self;
+}
+
+- (void)dealloc
+{
+   [_car release];
+   [super dealloc];
+}
+当我们使用self._car = car;进行赋值的时候，
+self.car会自动调用当前类的setter方法，这样
+setter方法使用@propety时，会自动调用car对象的
+retain方法，进行引用数加一，这时就不会出错了。
+
+延展(Extension)
+在创建一个类文件的时候，会有一个File Type的选项，这里面要选Extension类型
+延展是一个特殊的分类
+特殊之处:
+a.延展没有分类名字
+b.只有声明没有实现，只有一个.h文件，并且和本类共享一个实现
+c.延展当中可以加属性，@property会自动生成getter和setter的声明和实现
+延展语法
+@interface 本类名 ()
+
+@end
+
+什么时候使用延展
+当我们想要为类定义私有成员的时候，就可以使用延展，将延展定义在类的实现
+文件中。
+如果想要为类写一个私有属性，虽然我们可以定义在@implementation之中，但
+不要这么写，因为不规范。我们需要写一个延展，将私有属性定义在延展中。
+如果要为类写一个私有方法，建议将声明写在延展中，实现写在本类的实现中，
+这样可以提高代码的可读性。
+如果想要为类写一个私有的@property属性，就直接写在延展里就可以了。
+
+block
+block是一个数据类型。是用来存储一段代码的。这段代码可以有参数，
+可以有返回值。但并不是任意一段代码都可以存进去的，而是有限定的。
+语法格式
+返回值类型 (^block变量的名称)(参数列表);
+void (^myBlock1)();
+int (^myBlock2)();
+int (^myBlock3)(int num1,int num2);
+
+初始化block变量
+格式：
+^返回值类型(参数列表){
+     代码段;
+};
+^void(){
+   NSLog(@"opop");
+};
+可以将这段代码使用赋值符号存储到无返回值无参数要求的block变量中。
+两种赋值方式
+void (^myBlock1)();
+myBlock1 = ^void(){
+    NSLog(@"ljkljklj");
+};
+
+void (^myBlock1)() = ^void(){
+    NSLog(@"ljkljklj");
+};
+
+有返回值的代码段
+int (^myBlock2)() = ^int(){
+    int num = 10 + 20;
+    return num;
+};
+
+既有参数又有返回值的
+int (^myBlock3)(int num1,int num2) = ^int(int num1,int num2){
+     return num1 + num2;
+};
+
+如何执行代码段变量中的代码
+myBlock1();
+int i = myBlock(10,20);
+
+关于block简写
+1.如果我们写的代码段没有返回值,void可以不写
+void (^myBlock1)() = ^(){
+   NSLog(@"fdfsf");
+};
+2.如果代码段没有参数，小括号也可以不写
+void (^myBlock1)() = ^{
+   NSLog(@"fdfsf");
+};
+int (^myBlock1)() = ^int{
+   NSLog(@"fdfsf");
+   return 1;
+};
+3.声明block变量的时候，如果有指定参数，可以只写参数类型而
+不写参数名称
+int (^myBlock3)(int,int) = ^int(int num1,int num2){
+     return num1 + num2;
+};
+4.无论代码段是否有返回值，在写代码的时候，可以不写返回值类型。
+如果在写代码段的时候，省略的返回值，这个时候系统会自动确定返回值
+类型。
+但建议不要简写。
+int (^myBlock3)(int,int) = ^(int num1,int num2){
+     return num1 + num2;
+};
+
+使用typedef简化block定义
+typedef void (^NewType)();
+NewType block1;
+NewType block2;
+typedef int (^NewType2)(int num1,int num2);
+NewType2 t1 = ^int(int num1,int num2){
+   return 1;
+};
+```
