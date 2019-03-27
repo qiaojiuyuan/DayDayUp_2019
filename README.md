@@ -2154,3 +2154,78 @@ NewType2 t1 = ^int(int num1,int num2){
    return 1;
 };
 ```
+
+---
+## 2019年3月27日
+1. oc学习
+```oc 
+关于block块访问外部变量的问题
+1.在block代码块的内部可以取定义在外部的变量的值，定义在外部的局部变量和全局变量。
+2.在block代码块的内部可以修改全局变量的值，但不能修改定义在外部的局部变量的值
+3.如果你希望我们定义的局部变量可以允许在block代码的内部去修改，那么就为这个局部变量前
+面加一个__block的修饰符。
+
+block作为函数的参数
+两种写法
+void test(void (^block1)())
+{
+    block1();
+}
+
+tyepdef void (^NewType)();
+void test(void (NewType block1)
+{
+    block1();
+}
+
+如何调用test方法
+两种方式
+NewType type = ^{
+   NSLog(@"fsdfdsaf");
+};
+test(type);
+
+test(^{
+   NSLog(@"fsdfdsaf");
+});
+
+block也可以做为函数的返回值
+
+协议(Protocol)
+作用
+1.专门用来声明一大堆方法的
+2.只要某个类遵守这个协议，就相当于拥有这个协议的所有方法。
+3.协议中只能声明方法，不能定义属性，也没有方法的实现
+4.一个类只能有一个父类，但可以有多个协议
+5.类的名称可以和协议的名称相同
+语法
+@interface 类名 : 父类名 <协议名>
+
+@end
+
+@interface Dog : NSObject <MyProtocol>
+
+@end
+
+@interface Dog : NSObject <MyProtocol,YouProtocol>
+
+@end
+
+修饰协议的两个修饰符
+@required
+在协议中，如果方法是被@required修饰，那么遵守这个协议的类必须要实现这个方法，
+否则编译器会发出警告，默认是@required
+@optional
+如果方法是被@optional修饰,那么遵守这个协议的类可以实现这个方法，也可以不实现这个方法，
+不实现编译器也不会报警告
+
+协议可以从另外一个协议继续
+子协议不仅有自己的方法声明，还包含父协议的方法声明
+语法
+@protocol SportProtolcol <FProtocol>
+
+@end
+
+```
+2. 今天凌晨，我最喜欢的游戏之一要出新内容了，好激动呀，不过由于明天要上班所以就不能第一时间玩上了
+3. 上午学习了一下关于gradle方面的知识
