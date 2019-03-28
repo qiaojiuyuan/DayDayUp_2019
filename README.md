@@ -2324,4 +2324,5 @@ NSArray
 arrayWithObjects
 第二种方式，简要的方式，这种方式不需要在最后加nil
 NSArray *arr = @[@"jack",@"rose"];
+当NSArray里存的元素类型不一致时，可以使用id来遍历
 ```
