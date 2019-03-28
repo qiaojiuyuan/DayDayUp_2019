@@ -2229,3 +2229,99 @@ block也可以做为函数的返回值
 ```
 2. 今天凌晨，我最喜欢的游戏之一要出新内容了，好激动呀，不过由于明天要上班所以就不能第一时间玩上了
 3. 上午学习了一下关于gradle方面的知识
+
+---
+## 2019年3月28日
+1. oc学习
+```oc
+协议类型的限制
+声明一个指针，可以指向任意对象，但要求指向的对象要遵守指定的协议。
+NSObject<协议名称> *指针名;
+这个时候，这个指针可以指向遵守了指定协议的任意对象，否则会报一个警告。
+如果一个指针有多个协议，那么指针指向的对象也要同时遵守多个协议。
+
+Foundation框架常用类
+NSString
+字符串的内容是不可变的，如果给字符串指针变量重新赋值的时候，
+其实是重新指向了一个新的字符串常量。
+当两个字符串指针变量所指向的字符串内容一样时，其实两个指针指向
+的地址是一样的。
+存储在常量区的字符串是不会被回收的。
+//这种方式声明字符串，字符串的值是存在常量区中的
+NSString *str1 = @"jack";
+//这种方式声明字符串，字符串的值是存在堆中的
+NSString *str2 = [NSString new];
+//将字符串内容写到文件中
+writeToFile
+参数1:写入到的文件路径
+参数2:YSE，先将内容写到一个临时文件，如果写入成功再把文件搬到指定的目录。
+NO,直接将内容写入到指定文件，这个不安全，但是效率高，一般使用此种方法。
+参数3:指定写入的编码
+参数4:二级指针，要传递一个NSError指针的地址。如果写入成功，这个指针的值
+是一个nil，如果写入失败，指针指向一个对象，描述了发生错误的信息，
+这个对象的localizedDescription方法可以得到发生错误的信息。
+返回值是BOOL，代表是否写入成功。
+
+从磁盘上的文件读取文件内容
++ (instancetype)stringWithContentsOfFile:(NSString *)path encoding:
+(NSStringEncoding)enc error:(NSError **)error;
+
+NSURL
+作用：
+既可以读写本地文件，也可以读写网页文件、ftp服务器上的文件
+不同的类型的URL地址的写法
+1.本地磁盘文件：file:///User/aa/1.txt
+2.网页地址:http://www.itcase.cn/index.html
+3.ftp文件的地址:ftp://server.itcase.con/1.txt
+将不同类型地址封装在NSURL对象之中
+NSURL *u1 = [NSURL URLWithString:@"http://www.itcase.cn/index.html"];
+//读取文件内容
+NSString *str = [NSString stringWithContentsOfURL:u1 
+encoding:NSUTF8StringEncoding error:nil];
+//写入文件内容
+NSString *str @"dfasf";
+BOOL res = [str writeToURL:u1 atomically:NO encoding:NSUTF8StringEncoding error:nil];
+
+判断字符串是否以指定的字符串开头
+- (BOOL)hasPrefix:(NSString *)str;
+判断字符串是否以指定字符串结尾
+hasSuffix
+
+在字符串中搜索子串
+返回值NSRange是一个结构体，里面有两个属性。
+location:代表子串在主串中的第一次出现的下标，没有找到此值为NSUInteger的最大值，
+也等于NSNotFound
+length代表子串在主串中匹配的长度，如果没有匹配到此值是0
+-(NSRange)rangeOfString
+
+截取字符串
+从指定的下标处一直截取到最后
+substringFromIndex
+NSString *newstr = [str substringFromIndex:3]
+从第0个开始截取指定的个数
+substringToIndex
+截取自定义的范围
+substringWithRange
+
+字符串替换
+//这个方法会替换字符串里所有相同的字符
+stringByReplacingOccurrencesOfString
+
+NSMutableString
+使字符串具备可变性，可以更改字符串
+不可以使用下面的方式进行初始化
+NSMutableString *str = @"fdsf";
+
+NSArray
+1.是Foundation框架的一个类，具备数组的功能
+2.只能存储OC对象
+3.长度固定，一旦NSArray创建完成，长度不可改变，无法新增和删除元素
+4.元素的类型是id类型
+5.将元素写完以后，最后要写一个nil，表示数组结束
+6.如果数组的中间元素有一个nil，后面的元素都会失效
+常用的初始化方法
+第一种方式
+arrayWithObjects
+第二种方式，简要的方式，这种方式不需要在最后加nil
+NSArray *arr = @[@"jack",@"rose"];
+```
