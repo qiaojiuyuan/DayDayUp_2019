@@ -2326,3 +2326,80 @@ arrayWithObjects
 NSArray *arr = @[@"jack",@"rose"];
 当NSArray里存的元素类型不一致时，可以使用id来遍历
 ```
+
+---
+## 2019年3月29日
+1. oc学习
+```oc
+NSMutableArray
+是NSArray的子类，但他是可以新增元素和删除元素的，是一个可变的数组。
+注意点
+NSMutableArray不可以使用下面的方法初始化
+NSMutableArray *arr = @[@"dfsa",@"fdf"];
+
+NSNumber
+OC定义的封装基本类型值的一个对象，主要是为了可以把int值存入到
+NSArray里使用。
+NSArray *arr = @[@10,@20,@30];
+上面的代码，@10代表一个NSNumber对象，这个对象包装的是整形的10。
+也可以把变量的int赋值给NSNumber
+int num = 10;
+NSNumber *n1 = @(num);
+
+NSDictionary
+NSMutableDictionary
+这们是数组，但是以键值对的形式存储数据的。
+键只能是遵守了NSCoping协议
+
+NSDictionary下面这种初始化方法，是值在前，键在后
+NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"jack",@"name",@"北京市",@"address,nil"];
+简要创建方式，这种是键在前，值在后
+NSDictionary *dict = @{@"name":@"rose",@"age":@"18"};
+遍历的话要使用for in的方式来遍历
+item键，通过item来取值
+for(id item in dict)
+{
+  dict[item];
+}
+还可以使用blcok的方式遍历
+[dict enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key,id _Nonnull obj,  
+BOOL * _Noonull stop){
+   
+}];
+
+NSMutableDictionary不能使用下面的方式初始化，要使用
+dictionartWithObjectsAndKeys方法初始化
+NSMutableDictionary *dict = @{@"":@"",@"":@""};
+新增键值对
+调用setObject方法，这个是值在前键在后
+也可以将字典数组持久化
+writeToFile
+dictionaryWithContentsOfFile
+
+在MRC的模式下，将一个对象存储到集合中，会为这个对象的引用计数器+1。
+当集合销毁的时候，就会向存储在集合中的所有对象发送一个release消息。
+在ARC的模式下，集合的元素是一个强类型的指针。
+
+NSFileManager是Foundation框架提供的一个类，
+可以用这个类操作磁盘上的文件、文件夹，对它们进行删除、移动、复制、拷贝、创建
+
+CGPoint
+是一个结构体，是用来表示ios控件在界面上的坐标。
+快速创建一个CGPoint对象
+CGPoint p1 = CGPointMake(20,30);
+
+CGSize
+用来表示一个控件的大小，宽度和高度。
+
+CGRect和NSRect
+这个结构的作用是用来存储一个控件的位置和大小。
+
+NSValue
+这个类的作用是用来包装一些无法存储到NSArray数组中的结构体的。
+
+NSDate
+时间日期的处理
+```
+2. 今天是3月份的最后一天，oc基础也差不多快要学完了，下周开始准备做ios的小项目，熟悉下生命周期和一些控件。
+3. 早上刚来，我们组的几个同事都被叫出去聊了要被裁员的事情，最后组里剩不下几个人，感觉还是挺凄凉的。看来还是要不断的提高自己
+的技术水平，这样就不怕在经济寒冬的时候被裁员而找不到工作。
